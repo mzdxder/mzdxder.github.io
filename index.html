@@ -159,7 +159,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2023/12/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/">我的第一篇文章</a>
+      <a class="article-title" href="/2023/12/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/">Linus高性能服务器编程学习笔记</a>
     </h1>
   
 
@@ -172,12 +172,80 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h2><p>内容</p>
-<hr>
-<h2 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h2><p>内容</p>
-<hr>
-<h2 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h2><p>参考文献</p>
-<p><a target="_blank" rel="noopener" href="http://www.mzd.cn/">www.mzd.cn</a></p>
+        <h1 id="第一部分-TCP-IP协议详解（1-4章）"><a href="#第一部分-TCP-IP协议详解（1-4章）" class="headerlink" title="第一部分 TCP&#x2F;IP协议详解（1~4章）"></a>第一部分 TCP&#x2F;IP协议详解（1~4章）</h1><h2 id="第一章-TCP-IP协议族"><a href="#第一章-TCP-IP协议族" class="headerlink" title="第一章 TCP&#x2F;IP协议族"></a>第一章 TCP&#x2F;IP协议族</h2><h3 id="1-1-TCP-IP协议族体系结构以及主要协议"><a href="#1-1-TCP-IP协议族体系结构以及主要协议" class="headerlink" title="1.1 TCP&#x2F;IP协议族体系结构以及主要协议"></a>1.1 TCP&#x2F;IP协议族体系结构以及主要协议</h3><p>TCP&#x2F;IP协议族是一个四层协议系统：自底而上分别是数据链路层、网络层、传输层、应用层</p>
+<p><img src="/image.png" alt="Alt text"></p>
+<h4 id="1-1-1-数据链路层"><a href="#1-1-1-数据链路层" class="headerlink" title="1.1.1 数据链路层"></a>1.1.1 数据链路层</h4><p>1.常用的协议：ARP协议（地址解析协议）、RARP协议（逆地址解析协议）</p>
+<p>2.作用：实现了IP地址和物理MAC地址之间的转换。</p>
+<h4 id="1-1-2-网络层"><a href="#1-1-2-网络层" class="headerlink" title="1.1.2 网络层"></a>1.1.2 网络层</h4><p>1.常用协议：IP协议、ICMP协议</p>
+<p>2.作用：实现数据包的选路和转发。</p>
+<p>3.方式：IP协议根据数据包的IP地址，使用逐跳（hop by hop）的方式确定通信路径。</p>
+<p>4.注意：ICMP协议并非严格意义上的网络层，因为它使用的是处于同一层的IP协议提供的服务。（一般上层协议使用下层协议提供的服务）</p>
+<h4 id="1-1-3-传输层"><a href="#1-1-3-传输层" class="headerlink" title="1.1.3 传输层"></a>1.1.3 传输层</h4><p>1.常用协议：TCP协议、UDP协议、SCTP协议</p>
+<p>2.作用：为两台主机上的应用程序提供端到端的通信。</p>
+<p>3.方式：</p>
+<pre><code>（1）TCP：为应用层提供可靠的、面向连接的、基于流的服务。
+
+        前提：使用双方必须先建立TCP连接
+
+（2）UDP：为应用层提供不可靠的、无连接的、基于数据报的服务。
+
+（3）SCTP：本书不讨论。
+</code></pre>
+<h4 id="1-1-4-应用层"><a href="#1-1-4-应用层" class="headerlink" title="1.1.4 应用层"></a>1.1.4 应用层</h4><p>1.常用协议：DNS协议、telnet协议、ping（工具）</p>
+<p>2.作用：处理应用程序的逻辑</p>
+<h3 id="1-2-封装"><a href="#1-2-封装" class="headerlink" title="1.2 封装"></a>1.2 封装</h3><pre><code>上层协议到底是如何使用下层协议提供的服务的呢？——————通过封装实现
+
+（应用层）应用数据——&gt;（传输层）TCP\UDP封装成TCO段\UDP数据报——&gt;（网络层）IP封装成IP数据报——&gt;（数据链路层）封装成帧
+
+至此封装结束，帧才是最终在物理网络上传送的字节序列！
+</code></pre>
+<p><img src="/image-1.png" alt="Alt text"></p>
+<h3 id="1-3-分用"><a href="#1-3-分用" class="headerlink" title="1.3 分用"></a>1.3 分用</h3><pre><code>分用：帧到达目的主机后，依次自底向上处理各自层的数据，并将最后处理好的帧交给目标应用程序。
+</code></pre>
+<p><img src="/image-2.png" alt="Alt text"></p>
+<pre><code>原应用程序——&gt;原始数据——&gt;封装——&gt;分用——&gt;目标应用程序
+
+在顶层目标服务看来，封装和分用似乎没有发生过。
+</code></pre>
+<h3 id="1-4-测试网络（略）"><a href="#1-4-测试网络（略）" class="headerlink" title="1.4 测试网络（略）"></a>1.4 测试网络（略）</h3><h3 id="1-5-ARP工作原理"><a href="#1-5-ARP工作原理" class="headerlink" title="1.5 ARP工作原理"></a>1.5 ARP工作原理</h3><pre><code>本书仅讨论从IP地址——&gt;以太网（MAC）地址的转换。
+
+原理：主机向自己所在网络广播一个ARP请求，该请求包含目标机器的网络地址。网络上的所有机器都将收到这个请求，但只有目的主机会回应一个应答，该应答包含目的主机自己的物理MAC地址。
+</code></pre>
+<p><video src="ARP%E5%8E%9F%E7%90%861.mp4" controls title="Title"></video><br><video src="ARP%E5%8E%9F%E7%90%862.mp4" controls title="Title"></video></p>
+<h4 id="1-5-1-ARP高速缓存"><a href="#1-5-1-ARP高速缓存" class="headerlink" title="1.5.1 ARP高速缓存"></a>1.5.1 ARP高速缓存</h4><pre><code>ARP高速缓存：包含经常访问或最近访问的机器的 IP地址到MAC地址的映射。
+
+作用：避免了重复的ARP请求，提高了发送数据包的速度。
+</code></pre>
+<h3 id="1-6-DNS工作原理"><a href="#1-6-DNS工作原理" class="headerlink" title="1.6 DNS工作原理"></a>1.6 DNS工作原理</h3><pre><code>作用：通常我们使用机器的域名来访问机器，而不是直接使用其IP地址，比如访问因特网的网站。那么将机器的域名转换为IP地址，就需要用到 域名查询服务。
+
+DNS：一种域名查询服务，将机器的域名转换为IP地址。
+</code></pre>
+<h4 id="1-6-1-DNS查询和应答报文详解"><a href="#1-6-1-DNS查询和应答报文详解" class="headerlink" title="1.6.1 DNS查询和应答报文详解"></a>1.6.1 DNS查询和应答报文详解</h4><pre><code>DNS：一套分布式的域名服务系统。每个DNS服务器存放这大量的 机器名和IP地址映射,并且是动态更新的。
+</code></pre>
+<h3 id="1-7-socket和TCP-IP协议族的关系"><a href="#1-7-socket和TCP-IP协议族的关系" class="headerlink" title="1.7 socket和TCP&#x2F;IP协议族的关系"></a>1.7 socket和TCP&#x2F;IP协议族的关系</h3><pre><code>前文提到，下三层（数据链路层、网络层、传输层）协议是在内核中实现的，因此操作系统需要实现一组系统调用，让应用程序能够访问这些协议提供的服务。实现这组系统调用的API主要有两套：soket和XTI，XTI已基本不再使用。
+</code></pre>
+<p>socket定义的这组API提供如下两个功能：</p>
+<pre><code>1.将应用程序数据从 用户缓冲区 中复制到TCP/UDP 内核发送缓冲区，以交付内核来发送数据；或者从 TCP/UDP接收缓冲区 复制数据到 用户缓冲区，以读取数据。
+
+2.应用程序可以通过它们修改内核中各层协议的某些头部信息或者数据结构，从而控制底层通信行为。（比如通过setsockopt函数设置IP数据报在网络中的存活时间）。
+</code></pre>
+<h2 id="第二章-IP协议详解"><a href="#第二章-IP协议详解" class="headerlink" title="第二章 IP协议详解"></a>第二章 IP协议详解</h2><pre><code>IP协议是TCP/IP协议的核心协议，也是socket网络编程的基础之一。主要从两方面深入探讨IP协议：
+
+    1.IP头部信息：IP头部信息出现在每个IP数据报中，用于指定IP通信的源端IP地址、目的IP地址，指导IP分片和重组，以及指定部分通信行为。
+
+    2.IP数据报的路由和转发：IP数据报的路由和转发发生在 除目标主机之外 的所有主机和路由器上。它们决定数据报是否应该转发及如何转发。 
+</code></pre>
+<h3 id="2-1-IP服务的特点"><a href="#2-1-IP服务的特点" class="headerlink" title="2.1 IP服务的特点"></a>2.1 IP服务的特点</h3><pre><code>IP协议是TCP/IP协议族的动力，为上层提供无状态、无连接、不可靠的服务。
+    1.无状态：IP通信双方不同步传输数据的状态信息，因此所有IP数据报的发送、传输、接收都是相互独立、没有上下文关系的。
+        （1）缺点：无法处理乱序的、重复的IP数据报
+        （2）优点：简单、高效
+    
+    2.无连接：IP通信双方都不长久的维持对方的任何信息。因此，上层协议每次发送数据报的时候，都必须明确指定对方的IP地址。
+    
+    3.不可靠：IP协议不能保证IP数据报准确的到达接收端，只是承诺“尽最大努力”。
+        发送端一旦检测到IP数据报发送失败，就通知上层协议发送失败，而且不会重传。因此，使用IP服务的上层协议（如TCP协议）需要自己实现数据确认、超时重传等机制以达到可靠传输的目的。
+</code></pre>
+<h2 id="第三章-TCP协议详解"><a href="#第三章-TCP协议详解" class="headerlink" title="第三章 TCP协议详解"></a>第三章 TCP协议详解</h2><h2 id="第四章-TCP-IP通信案例：访问internet上的服务器"><a href="#第四章-TCP-IP通信案例：访问internet上的服务器" class="headerlink" title="第四章 TCP&#x2F;IP通信案例：访问internet上的服务器"></a>第四章 TCP&#x2F;IP通信案例：访问internet上的服务器</h2><hr>
 
       
 
