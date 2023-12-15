@@ -18,8 +18,9 @@
 <meta property="og:image" content="http://example.com/image.png">
 <meta property="og:image" content="http://example.com/image-1.png">
 <meta property="og:image" content="http://example.com/image-2.png">
+<meta property="og:image" content="http://example.com/image-3.png">
 <meta property="article:published_time" content="2023-12-12T12:24:11.000Z">
-<meta property="article:modified_time" content="2023-12-14T13:02:16.743Z">
+<meta property="article:modified_time" content="2023-12-15T01:10:36.075Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/image.png">
@@ -250,6 +251,50 @@ DNS：一种域名查询服务，将机器的域名转换为IP地址。
     
     3.不可靠：IP协议不能保证IP数据报准确的到达接收端，只是承诺“尽最大努力”。
         发送端一旦检测到IP数据报发送失败，就通知上层协议发送失败，而且不会重传。因此，使用IP服务的上层协议（如TCP协议）需要自己实现数据确认、超时重传等机制以达到可靠传输的目的。
+</code></pre>
+<h3 id="2-2-IPv4头部结构"><a href="#2-2-IPv4头部结构" class="headerlink" title="2.2 IPv4头部结构"></a>2.2 IPv4头部结构</h3><h4 id="2-2-1-IPv4头部结构"><a href="#2-2-1-IPv4头部结构" class="headerlink" title="2.2.1 IPv4头部结构"></a>2.2.1 IPv4头部结构</h4><pre><code>IPv4头部结构通常为 20字节 + 40字节（选项部分）= 最长60字节   //1字节=8比特/位
+</code></pre>
+<p><img src="/image-3.png" alt="Alt text"></p>
+<p>第一行：</p>
+<pre><code>4位版本号：指定IP协议的版本，其值是4。
+
+4位头部长度：标志该IP头部有多少个4字节。因为4为最多能表示15，所以IP头部最长为60字节。
+
+8位服务类型：
+    3位优先权字段（现已忽略）
+    4位服务类型字段（最小延迟、最大吞吐量、最高可靠性、最小费用，只能有一个置1，应用程序根据实际需要设置）
+    1位保留字段（必须置0）
+
+16位总长度：标识该IP数据报的总长度，以字节为单位。由于MTU（最大传输单元）限制，长度超过MTU的数据报将被分片传输，所以实际传输的IP数据报都远远没有达到最大长度。
+</code></pre>
+<p>第二行：（实现分片）</p>
+<pre><code>16位标识：每个IP数据报的唯一标识，初始值由系统随机生成：每发送一个数据报，其值就加1。同一个数据报的所有分片都具有相同的标识值。
+
+3位标志：
+    第一位保留。
+    第二位：DF（Don&#39;t Fragment）表示“禁止分片”。如果设置了DF位，且IP数据报长度超过了MTU，那么IP模块会丢弃该数据报并返回一个ICMP差错报文。
+    第三位：MF（More Fragment）表示“更多分片”。除了数据报的最后一个分片外，其他分片都要设置为1
+
+13位分片偏移：分片相对于原始数据报开始处的偏移。除了最后一个分片外，其他分片的数据部分长度必须是8的整倍数
+</code></pre>
+<p>第三行：</p>
+<pre><code>8位生存时间：TTL（Time To Live）是数据报到达目的地前允许经过路由的跳数。每经过一个路由，TTL值被路由器-1。
+    TTL减为0时，路由器将丢弃数据报，并向源端发送一个ICMP差错报文。
+    TTL值可以防止数据报陷入路由循环。
+
+8位协议：用来区分上层协议：
+    ICMP是1，注意ICMP是和IP同层的！
+    TCP是6
+    UDP是17
+
+16位头部校验：由发送端填充，接收端使用CRC算法以校验IP数据报头部（注意，仅校验头部）在传输过程中是否损坏。
+</code></pre>
+<p>第四行、第五行：</p>
+<pre><code>32位源端IP地址 + 32位目的端IP地址
+</code></pre>
+<p>第六行：</p>
+<pre><code>可变长的可选信息字段：这部分最多包含40个字节。
+    可用选项：记录路由、时间戳、松散源路由选择、严格源路由选择
 </code></pre>
 <h2 id="第三章-TCP协议详解"><a href="#第三章-TCP协议详解" class="headerlink" title="第三章 TCP协议详解"></a>第三章 TCP协议详解</h2><h2 id="第四章-TCP-IP通信案例：访问internet上的服务器"><a href="#第四章-TCP-IP通信案例：访问internet上的服务器" class="headerlink" title="第四章 TCP&#x2F;IP通信案例：访问internet上的服务器"></a>第四章 TCP&#x2F;IP通信案例：访问internet上的服务器</h2><hr>
 
