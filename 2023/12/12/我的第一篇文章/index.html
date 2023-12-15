@@ -19,8 +19,16 @@
 <meta property="og:image" content="http://example.com/image-1.png">
 <meta property="og:image" content="http://example.com/image-2.png">
 <meta property="og:image" content="http://example.com/image-3.png">
+<meta property="og:image" content="http://example.com/image.png">
+<meta property="og:image" content="http://example.com/image-4.png">
+<meta property="og:image" content="http://example.com/image-5.png">
+<meta property="og:image" content="http://example.com/image-6.png">
+<meta property="og:image" content="http://example.com/image-7.png">
+<meta property="og:image" content="http://example.com/image-8.png">
+<meta property="og:image" content="http://example.com/image-9.png">
+<meta property="og:image" content="http://example.com/image-10.png">
 <meta property="article:published_time" content="2023-12-12T12:24:11.000Z">
-<meta property="article:modified_time" content="2023-12-15T03:27:46.179Z">
+<meta property="article:modified_time" content="2023-12-15T09:53:19.463Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/image.png">
@@ -236,6 +244,7 @@ DNS：一种域名查询服务，将机器的域名转换为IP地址。
 
 2.应用程序可以通过它们修改内核中各层协议的某些头部信息或者数据结构，从而控制底层通信行为。（比如通过setsockopt函数设置IP数据报在网络中的存活时间）。
 </code></pre>
+<hr>
 <h2 id="第二章-IP协议详解"><a href="#第二章-IP协议详解" class="headerlink" title="第二章 IP协议详解"></a>第二章 IP协议详解</h2><pre><code>IP协议是TCP/IP协议的核心协议，也是socket网络编程的基础之一。主要从两方面深入探讨IP协议：
 
     1.IP头部信息：IP头部信息出现在每个IP数据报中，用于指定IP通信的源端IP地址、目的IP地址，指导IP分片和重组，以及指定部分通信行为。
@@ -294,9 +303,139 @@ DNS：一种域名查询服务，将机器的域名转换为IP地址。
 </code></pre>
 <p>第六行：</p>
 <pre><code>可变长的可选信息字段：这部分最多包含40个字节。
-    可用选项：记录路由、时间戳、松散源路由选择、严格源路由选择
+    可用选项：记录路由、时间戳、松散源路由选择(必须经过所指路由器)、严格源路由选择（只能经过所指路由器）
 </code></pre>
-<h2 id="第三章-TCP协议详解"><a href="#第三章-TCP协议详解" class="headerlink" title="第三章 TCP协议详解"></a>第三章 TCP协议详解</h2><h2 id="第四章-TCP-IP通信案例：访问internet上的服务器"><a href="#第四章-TCP-IP通信案例：访问internet上的服务器" class="headerlink" title="第四章 TCP&#x2F;IP通信案例：访问internet上的服务器"></a>第四章 TCP&#x2F;IP通信案例：访问internet上的服务器</h2><hr>
+<h3 id="2-3-IP分片"><a href="#2-3-IP分片" class="headerlink" title="2.3 IP分片"></a>2.3 IP分片</h3><pre><code>1.当IP数据报长度超过MTU时候，将被分片传输。
+
+2.分片可能发生在发送端、中转路由器上，也可能在传输过程中被多次分片，但只有在最终的目标机器上，这些分片才会被IP模块重组。
+
+3.同一个IP数据报的每个分片都有自己的IP头部，它们具有相同的标识值，但具有不同的片偏移。
+
+4.除了最后一个分片外，其余分片都将设置MF标志。
+
+5.以太网帧的MTU是1500字节（1480字节数据部分 + 20字节IP头部）
+</code></pre>
+<p><img src="/image.png" alt="Alt text"></p>
+<h3 id="2-4-IP路由"><a href="#2-4-IP路由" class="headerlink" title="2.4 IP路由"></a>2.4 IP路由</h3><pre><code>IP协议的一个核心任务就是数据报的路由————决定数据报到目标机器的路径。
+</code></pre>
+<h4 id="2-4-1-IP模块工作流程"><a href="#2-4-1-IP模块工作流程" class="headerlink" title="2.4.1 IP模块工作流程"></a>2.4.1 IP模块工作流程</h4><p><img src="/image-4.png" alt="Alt text"></p>
+<h3 id="2-5-IP转发"><a href="#2-5-IP转发" class="headerlink" title="2.5 IP转发"></a>2.5 IP转发</h3><pre><code>不是转发给本机的IP数据报，将交由数据报转发子模块处理。
+
+路由器都能执行数据报的转发功能，而主机一般只发送和接受数据。
+</code></pre>
+<h3 id="2-6-重定向"><a href="#2-6-重定向" class="headerlink" title="2.6 重定向"></a>2.6 重定向</h3><pre><code>ICMP重定向报文也能更新路由表。
+</code></pre>
+<h4 id="2-6-1-ICMP重定向报文"><a href="#2-6-1-ICMP重定向报文" class="headerlink" title="2.6.1 ICMP重定向报文"></a>2.6.1 ICMP重定向报文</h4><p><img src="/image-5.png" alt="Alt text"></p>
+<pre><code>一般来说，主机只能接受ICMP重定向报文，路由器只能发送ICMP重定向报文。
+</code></pre>
+<h3 id="2-7-IPv6头部结构"><a href="#2-7-IPv6头部结构" class="headerlink" title="2.7 IPv6头部结构"></a>2.7 IPv6头部结构</h3><pre><code>40字节固定头部 + 扩展头部
+</code></pre>
+<p><img src="/image-6.png" alt="Alt text"></p>
+<hr>
+<h2 id="第三章-TCP协议详解"><a href="#第三章-TCP协议详解" class="headerlink" title="第三章 TCP协议详解"></a>第三章 TCP协议详解</h2><pre><code>和IP协议相比，TCP协议更靠近应用层，因此在应用程序中具有更强的可操作性。
+
+主要从以下四个方面来讨论TCP协议：
+
+    1.TCP头部信息：出现在每个TCP报文段中
+        作用：指定通信的源端端口号、目的端端口号，管理TCP连接，控制两个方向的数据流
+
+    2.TCP状态转移过程：TCP连接的任意一端都是一个状态机，TCP连接从建立到断开的整个过程中，两端的状态机都将经历不同的状态变迁。
+
+    3.TCP数据流：
+        （1）交互数据流
+        （2）成块数据流
+    TCP数据流中有一种特殊的数据：紧急数据
+
+    4.TCP数据流的控制：为了保证可靠传输和提高网络通信质量，内核需要对TCP数据流进行控制。
+        （1）超时重传
+        （2）拥塞控制
+</code></pre>
+<h3 id="3-1-TCP服务的特点"><a href="#3-1-TCP服务的特点" class="headerlink" title="3.1 TCP服务的特点"></a>3.1 TCP服务的特点</h3><pre><code>传输层主要有两个协议：TCP协议   UDP协议
+
+TCP协议相对于UDP协议的特点是：面向连接、字节流和可靠传输
+
+1.使用TCP协议通信前提：
+
+    （1）双方必须先建立TCP连接，才能开始数据的读写。
+
+    （2）双方必须为连接分配必要的内核资源————管理连接状态、连接上的数据的传输。
+
+2.TCP连接是全双工的————双方的数据读写可以通过一条连接进行。
+
+3.完成通信后，双方必须都断开连接，以释放系统资源！
+
+注意：
+
+    TCP连接是一对一的，因此基于广播和多播的应用程序不能使用TCP服务，可以选择使用无连接协议UDP。
+</code></pre>
+<h4 id="3-1-1-TCP协议面向字节流概念：应用程序对数据的发送和接受是没有边界限制的！"><a href="#3-1-1-TCP协议面向字节流概念：应用程序对数据的发送和接受是没有边界限制的！" class="headerlink" title="3.1.1 TCP协议面向字节流概念：应用程序对数据的发送和接受是没有边界限制的！"></a>3.1.1 TCP协议面向字节流概念：应用程序对数据的发送和接受是没有边界限制的！</h4><pre><code>发送端执行的写操作次数和接收端执行的读操作次数没有任何数量观念。
+
+（1）发送端原理：发送端连续执行多次写操作——&gt;TCP模块将这些数据放入到发送缓冲区——&gt;TCP模块真正开始发送数据时，将发送缓冲区的待发送数据封装成一个或多个TCP报文段发出
+
+（2）接收端原理：接收端收到一个或多个TCP报文段——&gt;按照TCP报文段序号放入到TCP接收缓冲区，并通知应用程序读取数据——&gt;应用程序根据接受缓冲区的大小，可以一次性全部读出数据，也可以分多次读取。
+</code></pre>
+<h4 id="3-1-2-UDP协议面向数据报概念："><a href="#3-1-2-UDP协议面向数据报概念：" class="headerlink" title="3.1.2 UDP协议面向数据报概念："></a>3.1.2 UDP协议面向数据报概念：</h4><pre><code>发送端每写一个操作，UDP模块就将其封装成一个UDP数据报并发送之。
+
+接收端必须及时针对每一个数据报进行读操作，否则会丢包！
+
+并且，如果用户没有指定足够的应用程序缓冲区来读取UDP数据，则UDP数据将被截断！
+</code></pre>
+<p><img src="/image-7.png" alt="Alt text"></p>
+<p>TCP传输是可靠的：</p>
+<pre><code>（1）发送应答机制。发送端每发送一个TCP报文都必须得到接收端的应答，才认为传输成功。
+
+（2）超时重传机制。发送端发送一个TCP报文启动定时器，若定时器时间内未收到应答，将重新发送该报文。
+
+（3）由于IP数据报可能会乱序、重复，所以TCP协议会对接受到的TCP报文重排、整理，在交付给应用层。
+
+注意：UDP协议和IP协议一样，都是提供不可靠服务，需要上层协议处理数据确认和超时重传等。
+</code></pre>
+<h3 id="3-2-TCP头部结构"><a href="#3-2-TCP头部结构" class="headerlink" title="3.2 TCP头部结构"></a>3.2 TCP头部结构</h3><pre><code>TCP头部结构：出现在每个TCP报文段中。
+    固定头部 + 头部选项
+    作用：指定通信源端端口、目的端端口、管理TCP连接等。
+</code></pre>
+<h4 id="3-2-1-TCP固定头部结构"><a href="#3-2-1-TCP固定头部结构" class="headerlink" title="3.2.1 TCP固定头部结构"></a>3.2.1 TCP固定头部结构</h4><p><img src="/image-8.png" alt="Alt text"></p>
+<pre><code>1.16位源端口号、16位目的端口号：
+    告知主机该报文段来自哪里（源端口），以及要传输给哪个上层协议或者应用程序（目的端口）。
+
+2.32位序号：
+    一次TCP通信中的。某一个方向上的字节流的每个字节的编号。
+
+3.32位确认号：
+    对另一方发来的TCP报文段的响应。
+
+4.4位头部长度：用来标识TCP头部有多少个4字节。  TCP头部最长是60字节。
+
+5.6位标识为：
+    （1）URG：紧急指针是否有效
+    （2）ACK：确认号是否有效
+    （3）PSH：提示接收端立刻从接收缓冲区读数据，腾空间！
+    （4）RST：要求对方重新建立连接（复位报文段）
+    （5）SYN：请求建立一个连接（同步报文段）
+    （6）FIN：通知对方，本端要关闭连接了（结束报文段）
+6.16位窗口大小：是TCP流量控制的一个手段。告诉对方，本端的接受缓冲区还能容纳多少字节数据，这样对方可以控制发送数据的速度。
+
+7.16位校验和：由发送端填充，接收端通过CRC算法校验TCP报文段在传输过程是否损坏。
+    注意：不仅校验头部，也校验数据，这是TCP可靠传输的一个重要保障！
+
+8.16位紧急指针：TCP发送端向接收端发送紧急数据的方法。
+</code></pre>
+<h4 id="3-2-2-TCP头部选项（40字节）"><a href="#3-2-2-TCP头部选项（40字节）" class="headerlink" title="3.2.2 TCP头部选项（40字节）"></a>3.2.2 TCP头部选项（40字节）</h4><pre><code>kind是选项类型、length是选项总长度、info是选项的具体信息
+</code></pre>
+<p><img src="/image-9.png" alt="Alt text"></p>
+<pre><code>TCP选项：
+</code></pre>
+<p><img src="/image-10.png" alt="Alt text"></p>
+<pre><code>0：结束选项
+1：空操作，无特殊意义，一般用来将TCP选项的总长度填充为4字节的倍数。
+2：最大报文段长度
+3：窗口扩大因子：只能出现在同步报文段中，且同步报文段本身不执行窗口扩大操作。
+4：选择性确认：SACK技术——当出现报文段丢失时，TCP模块只重发丢失的TCP报文段。
+5：SACK实际工作：告诉发送方，本端已接受并缓存了不连续的数据块，让发送端据此检查并重发丢失的数据块
+8：时间戳：计算通信双方的回路时间，为TCP流量控制提供重要信息。
+</code></pre>
+<h3 id="3-3-TCP连接的建立与关闭"><a href="#3-3-TCP连接的建立与关闭" class="headerlink" title="3.3 TCP连接的建立与关闭"></a>3.3 TCP连接的建立与关闭</h3><h4 id="3-3-1"><a href="#3-3-1" class="headerlink" title="3.3.1"></a>3.3.1</h4><hr>
+<h2 id="第四章-TCP-IP通信案例：访问internet上的服务器"><a href="#第四章-TCP-IP通信案例：访问internet上的服务器" class="headerlink" title="第四章 TCP&#x2F;IP通信案例：访问internet上的服务器"></a>第四章 TCP&#x2F;IP通信案例：访问internet上的服务器</h2><hr>
 
       
 
