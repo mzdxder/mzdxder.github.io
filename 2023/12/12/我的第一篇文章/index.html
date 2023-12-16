@@ -27,8 +27,9 @@
 <meta property="og:image" content="http://example.com/image-8.png">
 <meta property="og:image" content="http://example.com/image-9.png">
 <meta property="og:image" content="http://example.com/image-10.png">
+<meta property="og:image" content="http://example.com/image-11.png">
 <meta property="article:published_time" content="2023-12-12T12:24:11.000Z">
-<meta property="article:modified_time" content="2023-12-15T09:53:19.463Z">
+<meta property="article:modified_time" content="2023-12-16T11:22:53.184Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/image.png">
@@ -434,7 +435,27 @@ TCP协议相对于UDP协议的特点是：面向连接、字节流和可靠传�
 5：SACK实际工作：告诉发送方，本端已接受并缓存了不连续的数据块，让发送端据此检查并重发丢失的数据块
 8：时间戳：计算通信双方的回路时间，为TCP流量控制提供重要信息。
 </code></pre>
-<h3 id="3-3-TCP连接的建立与关闭"><a href="#3-3-TCP连接的建立与关闭" class="headerlink" title="3.3 TCP连接的建立与关闭"></a>3.3 TCP连接的建立与关闭</h3><h4 id="3-3-1"><a href="#3-3-1" class="headerlink" title="3.3.1"></a>3.3.1</h4><hr>
+<h3 id="3-3-TCP连接的建立与关闭"><a href="#3-3-TCP连接的建立与关闭" class="headerlink" title="3.3 TCP连接的建立与关闭"></a>3.3 TCP连接的建立与关闭</h3><h4 id="3-3-1-三次握手-四次挥手"><a href="#3-3-1-三次握手-四次挥手" class="headerlink" title="3.3.1 三次握手 + 四次挥手"></a>3.3.1 三次握手 + 四次挥手</h4><p><img src="/image-11.png" alt="Alt text"></p>
+<pre><code>三次握手：TCP连接建立
+    报文段1：客户端请求与服务器端建立连接
+    报文段2：服务器端同意建立连接，并确认请求（将客户端发来的报文的ISN序号 + 1 代表确认）
+    报文段3：客户端确认服务器端的同意（将服务器端发来的报文的ISN序号 + 1 代表确认）
+
+四次挥手：TCP连接关闭
+    报文段4：包含FIN标志，代表结束报文段，即客户端请求关闭连接
+    报文段5：确认客户端的关闭连接请求（由于报文段6也有对关闭连接请求的确认，所以实际可忽略此报文段）
+    报文段6：服务器端发送结束报文段，并确认客户端的关闭连接请求
+    报文段7：确认服务器端的结束报文段
+
+注意：由客户端先提出的关闭连接请求，因此客户端执行主动关闭，服务器端执行被动关闭
+</code></pre>
+<h4 id="3-3-2-半关闭状态"><a href="#3-3-2-半关闭状态" class="headerlink" title="3.3.2 半关闭状态"></a>3.3.2 半关闭状态</h4><pre><code>通信的一方可以给对方发送结束报文段，以告知对方本端发送完毕，但依旧允许接收对方发来的数据，直到对方也发来结束报文段以关闭连接为止。
+</code></pre>
+<h4 id="3-3-3-超时连接"><a href="#3-3-3-超时连接" class="headerlink" title="3.3.3 超时连接"></a>3.3.3 超时连接</h4><pre><code>原因：服务器相距很远或者服务器繁忙，导致服务器没有应答客户端发出的同步报文段。
+
+客户端行为：客户端尝试重连，多次重连无效后（次数取决于内核变量的定义），告知应用程序连接超时。
+</code></pre>
+<hr>
 <h2 id="第四章-TCP-IP通信案例：访问internet上的服务器"><a href="#第四章-TCP-IP通信案例：访问internet上的服务器" class="headerlink" title="第四章 TCP&#x2F;IP通信案例：访问internet上的服务器"></a>第四章 TCP&#x2F;IP通信案例：访问internet上的服务器</h2><hr>
 
       
