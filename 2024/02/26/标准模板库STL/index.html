@@ -67,15 +67,44 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <img src="/2024/02/26/%E6%A0%87%E5%87%86%E6%A8%A1%E6%9D%BF%E5%BA%93STL/02/26/%E6%A0%87%E5%87%86%E6%A8%A1%E6%9D%BF%E5%BA%93STL/STL.png" class title="STL">
-
+        
+<p><img src="/2024/02/26/%E6%A0%87%E5%87%86%E6%A8%A1%E6%9D%BF%E5%BA%93STL/STL.png"></p>
 <span id="more"></span>
 
+<h1 id="一、各种容器的特点和适用情况"><a href="#一、各种容器的特点和适用情况" class="headerlink" title="一、各种容器的特点和适用情况"></a>一、各种容器的特点和适用情况</h1><p>vector：【可变大小的数组】 支持快速随机访问。在尾部之外的位置插入&#x2F;删除元素可能很慢。<br>deque：【双端队列】 支持快速随机访问。在头尾位置插入&#x2F;删除很快。<br>list：【双向链表】 只支持双向顺序访问。在list任何位置插入&#x2F;删除元素都很快。<br>forward_list：【单向链表】 只支持单向顺序访问。任何位置插入&#x2F;删除元素都很快。<br>array：【固定大小的数组】 支持快速随机访问。不能添加或删除元素。<br>string：【可变大小的字符数组】 支持快速随机访问。在尾部插入&#x2F;删除元素很快。</p>
+<p>支持随机访问的容器：vector、deque、array、string<br>支持在任意位置插入&#x2F;删除元素：list、forward_list<br>只在尾部插入元素：vector、deque(头部也可以)、string</p>
+<h1 id="二、各种容器的底层机制和常见问题"><a href="#二、各种容器的底层机制和常见问题" class="headerlink" title="二、各种容器的底层机制和常见问题"></a>二、各种容器的底层机制和常见问题</h1><h2 id="1、vector"><a href="#1、vector" class="headerlink" title="1、vector"></a>1、vector</h2><h3 id="（1）底层原理"><a href="#（1）底层原理" class="headerlink" title="（1）底层原理"></a>（1）底层原理</h3><pre><code>【底层原理】vector底层是一个动态数组。
+【vector内存增长机制】 当空间不够时，会自动申请另一片更大的空间（1.5倍或2倍），然后把原来的数据拷贝到新的内存空间，接着释放原来的内存空间。
+对vector的任何操作，一旦【引起空间的重新配置】，指向原vector的所有迭代器都将失效。
+</code></pre>
+<h3 id="（2）常见问题"><a href="#（2）常见问题" class="headerlink" title="（2）常见问题"></a>（2）常见问题</h3><pre><code>【问】vector中size和capacity的区别？
+【答】size表示当前vector中有多少元素，capacity表示可以容纳多少元素。
+
+【问】vector扩容为什么要以1.5倍或者2倍扩容？
+【答】考虑可能产生堆空间浪费，成倍增长倍数不能太大，最好的倍增长因子在（1，2）之间，通常为1.5或者2。
+
+【问】vector迭代器失效的情况？
+【答】当插入一个元素到vector中，由于引起了内存重新分配，因此指向原内存的迭代器全部失效；当删除容器中的一个元素后，若迭代器指向该被删除元素，那么迭代器失效。
+
+【问】vector的元素类型可以是引用吗？
+【答】不能！vector的底层实现要求是连续的对象排列，引用并非对象，没有实际地址，因此vector的元素类型不能是引用。
+</code></pre>
+<h2 id="2、list"><a href="#2、list" class="headerlink" title="2、list"></a>2、list</h2><h3 id="底层原理"><a href="#底层原理" class="headerlink" title="底层原理"></a>底层原理</h3><pre><code>【底层原理】list底层是一个双向链表。
+以节点为单位存储数据，节点地址在内存中不一定连续，每次插入/删除一个元素，就配置或释放一个元素空间。
+</code></pre>
+<h2 id="3、deque"><a href="#3、deque" class="headerlink" title="3、deque"></a>3、deque</h2><h3 id="（1）底层原理-1"><a href="#（1）底层原理-1" class="headerlink" title="（1）底层原理"></a>（1）底层原理</h3><pre><code>【底层原理】deque底层是一个双端开口的连续空间（双端队列）。
+</code></pre>
+<h3 id="（2）常见问题-1"><a href="#（2）常见问题-1" class="headerlink" title="（2）常见问题"></a>（2）常见问题</h3><pre><code>【问】什么情况下使用deque？
+【答】需要从首尾两端进行插入删除操作的时候选择deque。
+</code></pre>
+<h2 id="4、priority-queue"><a href="#4、priority-queue" class="headerlink" title="4、priority_queue"></a>4、priority_queue</h2><h3 id="底层原理-1"><a href="#底层原理-1" class="headerlink" title="底层原理"></a>底层原理</h3><pre><code>【底层原理】优先队列，底层是用堆来实现的。
+在优先队列中，队首元素一定是当前队列中优先级最高的那一个。
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/02/26/%E6%A0%87%E5%87%86%E6%A8%A1%E6%9D%BF%E5%BA%93STL/" data-id="clt2x0jjs0004e4v85qsj9qw8" data-title="标准模板库STL" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2024/02/26/%E6%A0%87%E5%87%86%E6%A8%A1%E6%9D%BF%E5%BA%93STL/" data-id="clt30qrm60004dov832w15kyk" data-title="标准模板库STL" class="article-share-link">分享</a>
       
       
       
