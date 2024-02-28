@@ -73,8 +73,8 @@
 
 <h1 id="一、各种容器的特点和适用情况"><a href="#一、各种容器的特点和适用情况" class="headerlink" title="一、各种容器的特点和适用情况"></a>一、各种容器的特点和适用情况</h1><p>vector：【可变大小的数组】 支持快速随机访问。在尾部之外的位置插入&#x2F;删除元素可能很慢。<br>deque：【双端队列】 支持快速随机访问。在头尾位置插入&#x2F;删除很快。<br>list：【双向链表】 只支持双向顺序访问。在list任何位置插入&#x2F;删除元素都很快。<br>forward_list：【单向链表】 只支持单向顺序访问。任何位置插入&#x2F;删除元素都很快。<br>array：【固定大小的数组】 支持快速随机访问。不能添加或删除元素。<br>string：【可变大小的字符数组】 支持快速随机访问。在尾部插入&#x2F;删除元素很快。</p>
 <p>支持随机访问的容器：vector、deque、array、string<br>支持在任意位置插入&#x2F;删除元素：list、forward_list<br>只在尾部插入元素：vector、deque(头部也可以)、string</p>
-<h1 id="二、各种容器的底层机制和常见问题"><a href="#二、各种容器的底层机制和常见问题" class="headerlink" title="二、各种容器的底层机制和常见问题"></a>二、各种容器的底层机制和常见问题</h1><h2 id="1、vector"><a href="#1、vector" class="headerlink" title="1、vector"></a>1、vector</h2><h3 id="（1）底层原理"><a href="#（1）底层原理" class="headerlink" title="（1）底层原理"></a>（1）底层原理</h3><pre><code>【底层原理】vector底层是一个动态数组。
-【vector内存增长机制】 当空间不够时，会自动申请另一片更大的空间（1.5倍或2倍），然后把原来的数据拷贝到新的内存空间，接着释放原来的内存空间。
+<h1 id="二、各种容器的底层机制和常见问题"><a href="#二、各种容器的底层机制和常见问题" class="headerlink" title="二、各种容器的底层机制和常见问题"></a>二、各种容器的底层机制和常见问题</h1><h2 id="1、vector"><a href="#1、vector" class="headerlink" title="1、vector"></a>1、vector</h2><h3 id="（1）底层原理"><a href="#（1）底层原理" class="headerlink" title="（1）底层原理"></a>（1）底层原理</h3><p><font color="#0099ff" size="4" face="黑体">vector底层是一个动态数组。</font></p>
+<pre><code>【vector内存增长机制】 当空间不够时，会自动申请另一片更大的空间（1.5倍或2倍），然后把原来的数据拷贝到新的内存空间，接着释放原来的内存空间。
 对vector的任何操作，一旦【引起空间的重新配置】，指向原vector的所有迭代器都将失效。
 </code></pre>
 <h3 id="（2）常见问题"><a href="#（2）常见问题" class="headerlink" title="（2）常见问题"></a>（2）常见问题</h3><pre><code>【问】vector中size和capacity的区别？
@@ -89,19 +89,18 @@
 【问】vector的元素类型可以是引用吗？
 【答】不能！vector的底层实现要求是连续的对象排列，引用并非对象，没有实际地址，因此vector的元素类型不能是引用。
 </code></pre>
-<h2 id="2、list"><a href="#2、list" class="headerlink" title="2、list"></a>2、list</h2><h3 id="底层原理"><a href="#底层原理" class="headerlink" title="底层原理"></a>底层原理</h3><pre><code>【底层原理】list底层是一个双向链表。
-以节点为单位存储数据，节点地址在内存中不一定连续，每次插入/删除一个元素，就配置或释放一个元素空间。
+<h2 id="2、list"><a href="#2、list" class="headerlink" title="2、list"></a>2、list</h2><h3 id="底层原理"><a href="#底层原理" class="headerlink" title="底层原理"></a>底层原理</h3><p><font color="#0099ff" size="4" face="黑体">list底层是一个双向链表。</font></p>
+<pre><code>以节点为单位存储数据，节点地址在内存中不一定连续，每次插入/删除一个元素，就配置或释放一个元素空间。
 </code></pre>
-<h2 id="3、deque"><a href="#3、deque" class="headerlink" title="3、deque"></a>3、deque</h2><h3 id="（1）底层原理-1"><a href="#（1）底层原理-1" class="headerlink" title="（1）底层原理"></a>（1）底层原理</h3><pre><code>【底层原理】deque底层是一个双端开口的连续空间（双端队列）。
-</code></pre>
+<h2 id="3、deque"><a href="#3、deque" class="headerlink" title="3、deque"></a>3、deque</h2><h3 id="（1）底层原理-1"><a href="#（1）底层原理-1" class="headerlink" title="（1）底层原理"></a>（1）底层原理</h3><p><font color="#0099ff" size="4" face="黑体">deque底层是一个双端开口的连续空间（双端队列）。</font></p>
 <h3 id="（2）常见问题-1"><a href="#（2）常见问题-1" class="headerlink" title="（2）常见问题"></a>（2）常见问题</h3><pre><code>【问】什么情况下使用deque？
 【答】需要从首尾两端进行插入删除操作的时候选择deque。
 </code></pre>
-<h2 id="4、priority-queue"><a href="#4、priority-queue" class="headerlink" title="4、priority_queue"></a>4、priority_queue</h2><h3 id="底层原理-1"><a href="#底层原理-1" class="headerlink" title="底层原理"></a>底层原理</h3><pre><code>【底层原理】优先队列，底层是用堆来实现的。
-在优先队列中，队首元素一定是当前队列中优先级最高的那一个。
+<h2 id="4、priority-queue"><a href="#4、priority-queue" class="headerlink" title="4、priority_queue"></a>4、priority_queue</h2><h3 id="底层原理-1"><a href="#底层原理-1" class="headerlink" title="底层原理"></a>底层原理</h3><p><font color="#0099ff" size="4" face="黑体">优先队列，底层是用堆来实现的。</font></p>
+<pre><code>在优先队列中，队首元素一定是当前队列中优先级最高的那一个。
 </code></pre>
-<h2 id="5、map、multimap、map、multimap"><a href="#5、map、multimap、map、multimap" class="headerlink" title="5、map、multimap、map、multimap"></a>5、map、multimap、map、multimap</h2><h3 id="（1）底层原理-2"><a href="#（1）底层原理-2" class="headerlink" title="（1）底层原理"></a>（1）底层原理</h3><pre><code>【底层原理】 红黑树
-【红黑树特性】   1.每个结点或是红色或是黑色
+<h2 id="5、map、multimap、set、multiset"><a href="#5、map、multimap、set、multiset" class="headerlink" title="5、map、multimap、set、multiset"></a>5、map、multimap、set、multiset</h2><h3 id="（1）底层原理-2"><a href="#（1）底层原理-2" class="headerlink" title="（1）底层原理"></a>（1）底层原理</h3><p><font color="#0099ff" size="4" face="黑体">红黑树。</font></p>
+<pre><code>【红黑树特性】   1.每个结点或是红色或是黑色
                 2.根节点是黑的
                 3.每个叶子结点是黑的
                 4.如果一个结点是红的，则它的两个儿子均是黑的
@@ -115,8 +114,8 @@ map和multimap将（key，value）组成的pair键值对作为元素，根据key
 <h3 id="（2）常见问题-2"><a href="#（2）常见问题-2" class="headerlink" title="（2）常见问题"></a>（2）常见问题</h3><pre><code>【问】为什么map、set的插入删除效率比其他序列容器高，而且每次插入后，以前保存的迭代器不会失效？
 【答】因为存储的是结点，不需要内存拷贝和内存移动。因为插入操作只是结点指针换来换去，结点内存没有改变，内存不变，指向内存的迭代器也不会变。
 </code></pre>
-<h2 id="6、unordered-map、unordered-set"><a href="#6、unordered-map、unordered-set" class="headerlink" title="6、unordered_map、unordered_set"></a>6、unordered_map、unordered_set</h2><h3 id="（1）底层原理-3"><a href="#（1）底层原理-3" class="headerlink" title="（1）底层原理"></a>（1）底层原理</h3><pre><code>【底层原理】 哈希表
-【哈希表特点】 数据存储和查找的时间大大降低，时间复杂度为O(1)，代价是消耗比较多的内存。
+<h2 id="6、unordered-map、unordered-set"><a href="#6、unordered-map、unordered-set" class="headerlink" title="6、unordered_map、unordered_set"></a>6、unordered_map、unordered_set</h2><h3 id="（1）底层原理-3"><a href="#（1）底层原理-3" class="headerlink" title="（1）底层原理"></a>（1）底层原理</h3><p><font color="#0099ff" size="4" face="黑体">哈希表。</font></p>
+<pre><code>【哈希表特点】 数据存储和查找的时间大大降低，时间复杂度为O(1)，代价是消耗比较多的内存。
 </code></pre>
 <h3 id="（2）常见问题-3"><a href="#（2）常见问题-3" class="headerlink" title="（2）常见问题"></a>（2）常见问题</h3><pre><code>【问】unordered_map与map的区别？
 【答】unordered_map需要hash函数，而map只需要比较函数即可。unordered_map底层存储结构是哈希表存储，而map底层存储结构是红黑树。
@@ -130,7 +129,7 @@ map和multimap将（key，value）组成的pair键值对作为元素，根据key
 </code></pre>
 <h3 id="（2）删除操作"><a href="#（2）删除操作" class="headerlink" title="（2）删除操作"></a>（2）删除操作</h3><pre><code>【list、forward_list】删除操作不会导致迭代器失效。
 【vector、string】删除点之前的有效。
-【deque】删除点不似乎首尾位置，失效。
+【deque】删除点不是首尾位置，失效。
 【关联容器map】如果一个元素被删除，那么其对应的迭代器就失效了。
 </code></pre>
 <h1 id="四、STL容器的线程安全性"><a href="#四、STL容器的线程安全性" class="headerlink" title="四、STL容器的线程安全性"></a>四、STL容器的线程安全性</h1><h2 id="1-线程安全的情况"><a href="#1-线程安全的情况" class="headerlink" title="1.线程安全的情况"></a>1.线程安全的情况</h2><pre><code>多线程读取[同一容器]。
@@ -145,10 +144,12 @@ map和multimap将（key，value）组成的pair键值对作为元素，根据key
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/02/26/%E6%A0%87%E5%87%86%E6%A8%A1%E6%9D%BF%E5%BA%93STL/" data-id="clt4gposf0003s4v8bmvb7l04" data-title="标准模板库STL" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2024/02/26/%E6%A0%87%E5%87%86%E6%A8%A1%E6%9D%BF%E5%BA%93STL/" data-id="clt5fep5x00037sv8a90sgrhp" data-title="标准模板库STL" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/STL-vector-string-deque-list/" rel="tag">STL  vector  string  deque  list</a></li></ul>
+
     </footer>
   </div>
   
@@ -171,6 +172,13 @@ map和multimap将（key，value）组成的pair键值对作为元素，根据key
         <aside id="sidebar">
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/STL-vector-string-deque-list/" rel="tag">STL  vector  string  deque  list</a></li></ul>
+    </div>
+  </div>
+
 
   
     
