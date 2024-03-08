@@ -67,14 +67,18 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <img src="/2024/03/04/WebServer/03/04/WebServer/WebServer.png" class>
+        <span id="more"></span>
 
-<span id="more"></span>
-
+<h1 id="一、项目介绍"><a href="#一、项目介绍" class="headerlink" title="一、项目介绍"></a>一、项目介绍</h1><p>这个项目是我在学习计算机网络知识和socket编程时做的一个轻量级的Web服务器，当时做这个项目主要有两方面原因：一是为了巩固我之前学的网络编程和socket编程的知识，二是想熟悉一下web服务器从建立连接到处理客户端请求，以及最后的断开连接的整个过程。</p>
+<!--more-->
+<p>服务器的网络模型是Reactor反应堆模型+线程池模式，IO处理使用的是非阻塞IO和epoll的边沿触发模式，具备同时处理多个客户端的http请求的能力。</p>
+<p>项目主要分为两个方面的工作：一方面是服务器网络模型、日志系统等一些基本系统的搭建，另一方面是为了提高服务器性能所做的一些优化，比如缓存机制、内存池等一些额外系统的搭建。</p>
+<p>最后使用webbench对服务器进行压力测试，可以实现上万的并发连接。</p>
+<h1 id="二、"><a href="#二、" class="headerlink" title="二、"></a>二、</h1>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/03/04/WebServer/" data-id="cltcpvbva0001fov8cw5u331n" data-title="WebServer" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2024/03/04/WebServer/" data-id="cltifmhiu00043gv804ww5j45" data-title="WebServer" class="article-share-link">分享</a>
       
       
       
@@ -83,6 +87,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2024/03/08/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          网络编程
+        
+      </div>
+    </a>
   
   
     <a href="/2024/02/28/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
@@ -116,6 +129,10 @@
       <ul>
         
           <li>
+            <a href="/2024/03/08/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+          </li>
+        
+          <li>
             <a href="/2024/03/04/WebServer/">WebServer</a>
           </li>
         
@@ -129,10 +146,6 @@
         
           <li>
             <a href="/2024/02/26/C-11%E5%B8%B8%E7%94%A8%E7%89%B9%E6%80%A7/">C++11常用特性</a>
-          </li>
-        
-          <li>
-            <a href="/2023/12/21/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%8C%EF%BC%89/">Linux高性能服务器编程学习笔记（二）</a>
           </li>
         
       </ul>
