@@ -70,12 +70,27 @@
         <img src="/2024/03/08/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/03/08/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B.jpg" class>
 <span id="more"></span>
 
-
+<h1 id="一、阻塞IO（BIO）和非阻塞IO（NIO）"><a href="#一、阻塞IO（BIO）和非阻塞IO（NIO）" class="headerlink" title="一、阻塞IO（BIO）和非阻塞IO（NIO）"></a>一、阻塞IO（BIO）和非阻塞IO（NIO）</h1><p><font color="red" size="5" face="楷体">什么是阻塞IO？</font></p>
+<pre><code>阻塞IO是一种传统的IO模型，当程序执行输入/输出操作时，会发生阻塞直到操作完成。当读取数据时，如果没有数据可读，那么进程会一直等待数据的到来；当写数据时，如果无法立即写入，进程将一直等待操作系统的信号，直到完成写操作。
+</code></pre>
+<p><font color="green" size="4" face="楷体">【总结】 阻塞IO再进行IO操作时会阻塞进程，适用于应用程序IO请求较少且数据量较少的情况。</font></p>
+<p><font color="red" size="5" face="楷体">什么是非阻塞阻塞IO？</font></p>
+<pre><code>非阻塞IO是一种传统的IO模型，它允许程序在执行IO操作时继续执行其他任务。当读取数据时，如果没有数据可读，函数将立即返回一个错误码；当写入数据时，如果无法立即将数据写入目标，函数将立即返回一个错误码。通过轮询或选择机制，可以确定是否有数据可读或可写。
+</code></pre>
+<p><font color="green" size="4" face="楷体">【总结】 非阻塞IO允许程序在执行IO操作时继续执行其它任务，通过轮询机制判断IO操作是否就绪。</font></p>
+<p><font color="red" size="5" face="楷体">如何设置非阻塞？</font></p>
+<p><font color="green" size="4" face="楷体">1、通过socket()中的SOCK_NOBLOCK参数设置<br>2、通过fcntl()函数设置O_NONBLOCK标志位设置</font></p>
+<h1 id="二、IO多路复用"><a href="#二、IO多路复用" class="headerlink" title="二、IO多路复用"></a>二、IO多路复用</h1><p><font color="red" size="5" face="楷体">什么是IO多路复用？</font></p>
+<p><font color="green" size="4" face="楷体">IO多路复用就是单线程&#x2F;单进程同时监听多个文件描述符的IO事件</font></p>
+<p><font color="red" size="5" face="楷体">什么是select？</font></p>
+<p><font color="green" size="4" face="楷体">IO多路复用就是单线程&#x2F;单进程同时监听多个文件描述符的IO事件</font></p>
+<p><font color="red" size="5" face="楷体">什么是poll？</font></p>
+<p><font color="red" size="5" face="楷体">什么是epoll？</font></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/03/08/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" data-id="cltifw5iq000cjov84ixed234" data-title="网络编程" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2024/03/08/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" data-id="cltjvdb0n000em4v8efg7bile" data-title="网络编程" class="article-share-link">分享</a>
       
       
       

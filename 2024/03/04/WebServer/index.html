@@ -67,11 +67,10 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        
-
-<span id="more"></span>
+        <span id="more"></span>
 
 <h1 id="一、项目介绍"><a href="#一、项目介绍" class="headerlink" title="一、项目介绍"></a>一、项目介绍</h1><p>这个项目是我在学习计算机网络知识和socket编程时做的一个轻量级的Web服务器，当时做这个项目主要有两方面原因：一是为了巩固我之前学的网络编程和socket编程的知识，二是想熟悉一下web服务器从建立连接到处理客户端请求，以及最后的断开连接的整个过程。</p>
+<!--more-->
 <p>服务器的网络模型是Reactor反应堆模型+线程池模式，IO处理使用的是非阻塞IO和epoll的边沿触发模式，具备同时处理多个客户端的http请求的能力。</p>
 <p>项目主要分为两个方面的工作：一方面是服务器网络模型、日志系统等一些基本系统的搭建，另一方面是为了提高服务器性能所做的一些优化，比如缓存机制、内存池等一些额外系统的搭建。</p>
 <p>最后使用webbench对服务器进行压力测试，可以实现上万的并发连接。</p>
@@ -79,7 +78,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/03/04/WebServer/" data-id="cltifw5im0004jov8b1n0b8yd" data-title="WebServer" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2024/03/04/WebServer/" data-id="cltjvdb0j0003m4v8b6mmh45l" data-title="WebServer" class="article-share-link">分享</a>
       
       
       

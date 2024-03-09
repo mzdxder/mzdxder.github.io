@@ -88,6 +88,7 @@
 【问】vector的元素类型可以是引用吗？
 【答】不能！vector的底层实现要求是连续的对象排列，引用并非对象，没有实际地址，因此vector的元素类型不能是引用。
 </code></pre>
+<p><font color="red" size="5" face="黑体">vector内存释放：vector<int> ().swap(vec);</int></font></p>
 <h2 id="2、list"><a href="#2、list" class="headerlink" title="2、list"></a>2、list</h2><h3 id="底层原理"><a href="#底层原理" class="headerlink" title="底层原理"></a>底层原理</h3><p><font color="#0099ff" size="4" face="黑体">list底层是一个双向链表。</font></p>
 <pre><code>以节点为单位存储数据，节点地址在内存中不一定连续，每次插入/删除一个元素，就配置或释放一个元素空间。
 </code></pre>
@@ -143,7 +144,7 @@ map和multimap将（key，value）组成的pair键值对作为元素，根据key
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/02/26/%E6%A0%87%E5%87%86%E6%A8%A1%E6%9D%BF%E5%BA%93STL/" data-id="cltifw5iq000bjov8d15q225f" data-title="标准模板库STL" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2024/02/26/%E6%A0%87%E5%87%86%E6%A8%A1%E6%9D%BF%E5%BA%93STL/" data-id="cltjvdb0l0008m4v8dh4k8hkq" data-title="标准模板库STL" class="article-share-link">分享</a>
       
       
       
