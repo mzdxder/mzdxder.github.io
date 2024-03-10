@@ -226,11 +226,29 @@
 <p><font color="orange" size="4" face="楷体"> 非聚合类型 ：</font><font color="green" size="4" face="楷体">不满足以上任一条件的类就是非聚合类型 </font><br><font color="red" size="4" face="楷体"> 【需要提供对应的构造函数】 </font></p>
 <h3 id="（5-3）std-initializer-list"><a href="#（5-3）std-initializer-list" class="headerlink" title="（5.3）std::initializer_list"></a>（5.3）std::initializer_list</h3><p><font color="orange" size="4" face="楷体"> 可以接受任意个数的<font color="red" size="4" face="楷体">具有相同类型</font>的元素。 </font></p>
 <p><font color="orange" size="4" face="楷体"> 三个成员接口：</font><font color="green" size="4" face="楷体">size(), begin(), end() </font></p>
-<h2 id="6、using的使用"><a href="#6、using的使用" class="headerlink" title="6、using的使用"></a>6、using的使用</h2>
+<h2 id="6、using的使用"><a href="#6、using的使用" class="headerlink" title="6、using的使用"></a>6、using的使用</h2><p><font color="red" size="5" face="楷体"> 【用法】 using 新的类型名 &#x3D; 旧的类型名 </font></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> myint = <span class="type">int</span>;</span><br></pre></td></tr></table></figure>
+
+<p><font color="orange" size="5" face="楷体"> using可以直接给模板定义别名，typedef不能 </font></p>
+<h2 id="7、可调用对象包装器、绑定器"><a href="#7、可调用对象包装器、绑定器" class="headerlink" title="7、可调用对象包装器、绑定器"></a>7、可调用对象包装器、绑定器</h2><p><font color="green" size="5" face="楷体"> 1、可调用对象 </font></p>
+<p><font color="green" size="4" face="楷体"> 函数指针、仿函数、可被转换为函数指针的类对象、类成员函数指针或类成员指针 </font></p>
+<p><font color="red" size="5" face="楷体"> 2、包装器function </font></p>
+<p><font color="orange" size="5" face="楷体"> 【头文件】#include “functional” </font></p>
+<p><font color="orange" size="5" face="楷体"> 【用法】 std::function&lt;返回值类型(参数类型列表)&gt; diy_name &#x3D; 可调用对象; </font></p>
+<p><font color="red" size="5" face="楷体"> 3、绑定器bind </font></p>
+<p><font color="orange" size="5" face="楷体"> 【用法】： 结合占位符 </font></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">output</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cout &lt;&lt; x &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; y &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 使用绑定器绑定可调用对象和参数, 并调用得到的仿函数</span></span><br><span class="line">    <span class="built_in">bind</span>(output, <span class="number">1</span>, <span class="number">2</span>)();</span><br><span class="line">    <span class="built_in">bind</span>(output, placeholders::_1, <span class="number">2</span>)(<span class="number">10</span>);</span><br><span class="line">    <span class="built_in">bind</span>(output, <span class="number">2</span>, placeholders::_1)(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="built_in">bind</span>(output, <span class="number">2</span>, placeholders::_2)(<span class="number">10</span>, <span class="number">20</span>); <span class="comment">// 10没有作用！</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">bind</span>(output, placeholders::_1, placeholders::_2)(<span class="number">10</span>, <span class="number">20</span>);</span><br><span class="line">    <span class="built_in">bind</span>(output, placeholders::_2, placeholders::_1)(<span class="number">10</span>, <span class="number">20</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="8、-defaul-和-delete"><a href="#8、-defaul-和-delete" class="headerlink" title="8、&#x3D;defaul 和 &#x3D;delete"></a>8、&#x3D;defaul 和 &#x3D;delete</h2><p><font color="red" size="5" face="楷体"> 1、&#x3D; default </font></p>
+<p><font color="orange" size="5" face="楷体"> 使用 &#x3D; defaut 指定的默认函数和类提供的<font color="red" size="5" face="楷体">默认函数是等价</font>的，不能使用 &#x3D; default 修饰类提供的默认函数以外的函数 </font></p>
+<p><font color="red" size="5" face="楷体"> 2、&#x3D; delete </font></p>
+<p><font color="orange" size="5" face="楷体"> 使用 &#x3D; delete 表示显示删除，<code>显式删除可以避免用户使用一些不应该使用的类的成员函数</code>，使用这种方式可以有效的防止某些类型之间自动进行隐式类型转换产生的错误 </font></p>
+<h1 id="四、安全性"><a href="#四、安全性" class="headerlink" title="四、安全性"></a>四、安全性</h1><p><font color="orange" size="5" face="微软雅黑"> 在C++中没有垃圾回收机制，必须自己释放分配的内存，否则就会造成内存泄露。解决这个问题最有效的方法是使用智能指针（smart pointer）。 </font></p>
+<h2 id="1、共享智能指针（shared-ptr）"><a href="#1、共享智能指针（shared-ptr）" class="headerlink" title="1、共享智能指针（shared_ptr）"></a>1、共享智能指针（shared_ptr）</h2>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/02/26/C-11%E5%B8%B8%E7%94%A8%E7%89%B9%E6%80%A7/" data-id="cltl5a3zg0000rcv862qy24ta" data-title="C++11常用特性" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2024/02/26/C-11%E5%B8%B8%E7%94%A8%E7%89%B9%E6%80%A7/" data-id="cltlh17fv0000hkv8h6i19lgq" data-title="C++11常用特性" class="article-share-link">分享</a>
       
       
       
