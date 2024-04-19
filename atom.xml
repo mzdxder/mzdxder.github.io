@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-03-28T14:09:46.597Z</updated>
+  <updated>2024-04-19T08:05:51.862Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,11 +21,21 @@
     <link href="http://example.com/2024/03/28/MySQL/"/>
     <id>http://example.com/2024/03/28/MySQL/</id>
     <published>2024-03-28T14:09:46.000Z</published>
-    <updated>2024-03-28T14:09:46.597Z</updated>
+    <updated>2024-04-19T08:05:51.862Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、什么是索引？"><a href="#一、什么是索引？" class="headerlink" title="一、什么是索引？"></a>一、什么是索引？</h1><pre><code>索引就是一种帮助MySQL高效获取数据的排好序的数据结构。</code></pre><h1 id="二、索引的数据结构有哪些？"><a href="#二、索引的数据结构有哪些？" class="headerlink" title="二、索引的数据结构有哪些？"></a>二、索引的数据结构有哪些？</h1><h2 id="1、二叉树"><a href="#1、二叉树" class="headerlink" title="1、二叉树"></a>1、二叉树</h2><pre><code>通常不采用，自增数据可能会导致退化成链表。</code></pre><h2 id="2、红黑树（二叉平衡树）"><a href="#2、红黑树（二叉平衡树）" class="headerlink" title="2、红黑树（二叉平衡树）"></a>2、红黑树（二叉平衡树）</h2><pre><code>通常不采用，数据量大时，层级高，查询效率低。</code></pre><h2 id="3、Hash-table"><a href="#3、Hash-table" class="headerlink" title="3、Hash table"></a>3、Hash table</h2><pre><code>（1）不支持范围查找（2）Hash 冲突问题</code></pre><h2 id="4、B-tree"><a href="#4、B-tree" class="headerlink" title="4、B tree"></a>4、B tree</h2><pre><code>每个page既有索引，又有数据</code></pre><h2 id="5、B-tree"><a href="#5、B-tree" class="headerlink" title="5、B+ tree"></a>5、B+ tree</h2><pre><code>MySQL采用的索引结构（1）叶子节点拥有全部索引字段。（2）非叶子节点只包含冗余索引，不包含数据。内存可以放更多的索引。（3）叶子节点之间由双向链表项链，且按照索引已经排好序，能很好地支持范围查找。</code></pre><p><img src="https://pic.imgdb.cn/item/6622233f0ea9cb14031ff82b.png"></p><h1 id="三、什么是聚簇索引和非聚簇索引？"><a href="#三、什么是聚簇索引和非聚簇索引？" class="headerlink" title="三、什么是聚簇索引和非聚簇索引？"></a>三、什么是聚簇索引和非聚簇索引？</h1><h2 id="1、MyISAM存储引擎——————非聚簇索引"><a href="#1、MyISAM存储引擎——————非聚簇索引" class="headerlink" title="1、MyISAM存储引擎——————非聚簇索引"></a>1、MyISAM存储引擎——————非聚簇索引</h2><pre><code>一张表有：.frm + .MYI + .MYD 三个文件1.叶子节点的data部分存的是该索引字段对应的磁盘地址。2.查询时，需要到.MYD中找到该磁盘地址对应的数据。（即回表操作）</code></pre><h2 id="2、InnoDB存储引擎——————聚簇索引"><a href="#2、InnoDB存储引擎——————聚簇索引" class="headerlink" title="2、InnoDB存储引擎——————聚簇索引"></a>2、InnoDB存储引擎——————聚簇索引</h2><pre><code>一张表有：.frm + .idb 两个文件叶子节点的data部分存储的时该索引对应的所在行的完整数据。（不需要回表操作）因此，聚簇索引的性能要高于非聚簇索引。</code></pre><h1 id="四、普通索引和主键索引的区别？"><a href="#四、普通索引和主键索引的区别？" class="headerlink" title="四、普通索引和主键索引的区别？"></a>四、普通索引和主键索引的区别？</h1><h2 id="1、普通索引："><a href="#1、普通索引：" class="headerlink" title="1、普通索引："></a>1、普通索引：</h2><pre><code>1.叶子节点data部分存放的是主键2.查找时，先利用普通索引找到主键，再利用主键索引找到对应的数据。（本质上也是非聚簇）</code></pre><h2 id="2、主键索引："><a href="#2、主键索引：" class="headerlink" title="2、主键索引："></a>2、主键索引：</h2><pre><code>1.叶子节点的data部分存放的是该索引字段所在行的完整数据。2.查找时，可直接找到对应数据返回。</code></pre><h1 id="五、什么是索引覆盖？"><a href="#五、什么是索引覆盖？" class="headerlink" title="五、什么是索引覆盖？"></a>五、什么是索引覆盖？</h1><pre><code>所查字段正好在所用索引字段中，可直接返回，无需进一步回表。</code></pre><h1 id="六、什么是索引描述？与全表扫描有什么区别？"><a href="#六、什么是索引描述？与全表扫描有什么区别？" class="headerlink" title="六、什么是索引描述？与全表扫描有什么区别？"></a>六、什么是索引描述？与全表扫描有什么区别？</h1><pre><code>1.索引扫描：扫描索引B+ tree的叶子节点。----扫描的节点可能更少，效率更高。2.扫描主键B+ tree的叶子节点。</code></pre><h1 id="七、什么情况会导致索引失效？"><a href="#七、什么情况会导致索引失效？" class="headerlink" title="七、什么情况会导致索引失效？"></a>七、什么情况会导致索引失效？</h1><pre><code>对字段进行操作时会导致索引失效比如：varchar类型转int类型时，&#39;a&#39; ---&gt; 0    &#39;1&#39; ---&gt; 1</code></pre><h1 id="八、如果不建主键索引，那么一张表该怎么维护呢？"><a href="#八、如果不建主键索引，那么一张表该怎么维护呢？" class="headerlink" title="八、如果不建主键索引，那么一张表该怎么维护呢？"></a>八、如果不建主键索引，那么一张表该怎么维护呢？</h1><pre><code>1.首先，会利用该表的第一个唯一索引，建立维护这张表。2.若没有唯一索引，会利用隐藏字段row_id来组织维护这张表。注意：row_id对外不开放，建议自行建立自增的主键索引（通常为int 或者 bigint）</code></pre><h1 id="九、什么是MySQL的最左前缀原则？"><a href="#九、什么是MySQL的最左前缀原则？" class="headerlink" title="九、什么是MySQL的最左前缀原则？"></a>九、什么是MySQL的最左前缀原则？</h1><pre><code>在联合索引时，要使某一个索引字段能高效查找，那么该索引字段的前几个索引一定要走了索引才行。注意：查看一个SQL语句有没有走索引，可以用 EXPLAIN 查看。</code></pre><h1 id="十、什么是事务？"><a href="#十、什么是事务？" class="headerlink" title="十、什么是事务？"></a>十、什么是事务？</h1><pre><code>一组操作要么全部成功，要么全部失败，目的时为了保证数据的最终一致性。</code></pre><h1 id="十一、事务有哪些特性？分别是什么？"><a href="#十一、事务有哪些特性？分别是什么？" class="headerlink" title="十一、事务有哪些特性？分别是什么？"></a>十一、事务有哪些特性？分别是什么？</h1><pre><code>ACID：原子性、一致性、隔离性、持久性1.原子性：当前事务的操作，要么同时成功，要么同时失败。原子性由undo log保证。2.一致性：使用事务的最终目的。3.隔离性：事务并发执行时，事务之间的操作不能互相干扰。4.持久性：一个事务一旦提交，它对数据库的改变就应当时永久性的。持久性由redo log保证</code></pre><h1 id="十二、事务隔离级别有哪些？"><a href="#十二、事务隔离级别有哪些？" class="headerlink" title="十二、事务隔离级别有哪些？"></a>十二、事务隔离级别有哪些？</h1><pre><code>                脏读        不可重复读          幻读读未提交          ×              ×               ×           读已提交          √              ×               ×       -----MVCC，每次查询都会创建快照可重复读          √              √               ×       -----MVCC，同样的查询只会在第一次查询时创建快照串行化            √              √               √       -----利用表锁MySQL默认是 可重复读级别</code></pre><h1 id="十三、MVCC机制是什么？"><a href="#十三、MVCC机制是什么？" class="headerlink" title="十三、MVCC机制是什么？"></a>十三、MVCC机制是什么？</h1><pre><code>MVCC机制-----多版本并发控制机制。1.底层原理：Copy On Write-----COW，写时复制2.具体实现：内部维护了一个 undo log 日志版本链，通过快照可以找到对应版本的数据。</code></pre><p><img src="https://pic.imgdb.cn/item/662224490ea9cb1403220232.png"></p><h1 id="十四、什么是事务的持久性？"><a href="#十四、什么是事务的持久性？" class="headerlink" title="十四、什么是事务的持久性？"></a>十四、什么是事务的持久性？</h1><pre><code>事务的持久性主要是依靠redo log来维护的。1.Buffer Pool内存写完后，会先写一份redo log，这份redo log会记录这次的物理修改（在某个页上做了什么修改），即便MySQL在中途挂了，也可以根据redo log对数据进行恢复。2.redo log是顺序写的，写入速度很快，并且它记录的是物理修改，文件体积比较小，恢复速度很快。</code></pre><p><img src="https://pic.imgdb.cn/item/662224f30ea9cb140325b58d.webp"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;一、什么是索引？&quot;&gt;&lt;a href=&quot;#一、什么是索引？&quot; class=&quot;headerlink&quot; title=&quot;一、什么是索引？&quot;&gt;&lt;/a&gt;一、什么是索引？&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;索引就是一种帮助MySQL高效获取数据的排好序的数据结构。
+&lt;/code&gt;&lt;</summary>
+      
     
     
     
     
+    <category term="MySQL" scheme="http://example.com/tags/MySQL/"/>
     
   </entry>
   
@@ -34,11 +44,20 @@
     <link href="http://example.com/2024/03/28/Redis/"/>
     <id>http://example.com/2024/03/28/Redis/</id>
     <published>2024-03-28T14:09:34.000Z</published>
-    <updated>2024-03-28T14:09:34.673Z</updated>
+    <updated>2024-04-19T08:59:09.111Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、为什么引入Redis缓存？有什么好处？"><a href="#一、为什么引入Redis缓存？有什么好处？" class="headerlink" title="一、为什么引入Redis缓存？有什么好处？"></a>一、为什么引入Redis缓存？有什么好处？</h1><pre><code>Redis是基于内存的，支持上万的并发，存一些热点数据和频繁访问的数据，可以为MySQL分流，进而提高性能。</code></pre><h1 id="二、Redis为什么这么快？"><a href="#二、Redis为什么这么快？" class="headerlink" title="二、Redis为什么这么快？"></a>二、Redis为什么这么快？</h1><h3 id="1-首先Redis是基于纯内存操作，因此访问速度快。"><a href="#1-首先Redis是基于纯内存操作，因此访问速度快。" class="headerlink" title="1.首先Redis是基于纯内存操作，因此访问速度快。"></a>1.首先Redis是基于纯内存操作，因此访问速度快。</h3><h3 id="2-Redis的线程模型："><a href="#2-Redis的线程模型：" class="headerlink" title="2.Redis的线程模型："></a>2.Redis的线程模型：</h3><pre><code>1.采用IO多路复用，同时监听多个socket。2.内部维护了一个文件时间分派器，可以根据不同的socket事件状态，分派给不同的处理器（连接应答处理器、命令请求处理器、命令回复处理器），不同处理器之间可以并发的进行处理。</code></pre><h1 id="三、Redis的过期策略？"><a href="#三、Redis的过期策略？" class="headerlink" title="三、Redis的过期策略？"></a>三、Redis的过期策略？</h1><pre><code>1.惰性删除：只有访问key时，才会删除。---对cpu友好，对内存不友好。2.定期删除：每隔一段时间去检查，抽取一部分设置了过期时间的key，若过期则删除。---对内存友好，对cpu不友好。</code></pre><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Redis是惰性删除 + 定期删除结合使用，使cpu和内存达到一个较好的平衡。</span><br></pre></td></tr></table></figure><h1 id="四、什么是Redis的淘汰策略？"><a href="#四、什么是Redis的淘汰策略？" class="headerlink" title="四、什么是Redis的淘汰策略？"></a>四、什么是Redis的淘汰策略？</h1><pre><code>1.Redis的过期策略可能会漏掉一些过期的key，这些key积压在内存中，可能导致内存溢出，因此需要淘汰策略。2.淘汰策略：允许内存紧张时，根据一定的淘汰策略删除一些key-value对，以释放内存空间。3.常见淘汰策略：不淘汰策略、最近最少使用LRU、过期时间最短、随机删除、全局LRU、全局随机删除等。</code></pre><h1 id="五、什么是Redis的哨兵机制？有什么作用？"><a href="#五、什么是Redis的哨兵机制？有什么作用？" class="headerlink" title="五、什么是Redis的哨兵机制？有什么作用？"></a>五、什么是Redis的哨兵机制？有什么作用？</h1><pre><code>1.首先，Redis为了避免单机宕机情况的出现，一般采用集群不是（主-从）。2.哨兵集群是用来监控Redis集群的，若多个哨兵节点均认为某一个Redis节点宕机，则会在内部进行哨兵选举，当选的哨兵节点会主导Redis节点的切换，避免长时间宕机带来的风险。</code></pre><h1 id="六、什么是Redis缓存击穿、缓存雪崩、缓存穿透？如何避免和解决？"><a href="#六、什么是Redis缓存击穿、缓存雪崩、缓存穿透？如何避免和解决？" class="headerlink" title="六、什么是Redis缓存击穿、缓存雪崩、缓存穿透？如何避免和解决？"></a>六、什么是Redis缓存击穿、缓存雪崩、缓存穿透？如何避免和解决？</h1><h2 id="1-缓存击穿"><a href="#1-缓存击穿" class="headerlink" title="1.缓存击穿"></a>1.缓存击穿</h2><h3 id="指在高并发访问下，某一个热点数据失效了，针对该热点数据的大量请求就会直接达到MySQL，使MySQL压力剧增。"><a href="#指在高并发访问下，某一个热点数据失效了，针对该热点数据的大量请求就会直接达到MySQL，使MySQL压力剧增。" class="headerlink" title="指在高并发访问下，某一个热点数据失效了，针对该热点数据的大量请求就会直接达到MySQL，使MySQL压力剧增。"></a>指在高并发访问下，某一个热点数据失效了，针对该热点数据的大量请求就会直接达到MySQL，使MySQL压力剧增。</h3><pre><code>解决方案：    1.对热点数据的过期时间适当延长or设置永不过期。    2.互斥锁访问MySQL。</code></pre><h2 id="2-缓存雪崩"><a href="#2-缓存雪崩" class="headerlink" title="2.缓存雪崩"></a>2.缓存雪崩</h2><h3 id="指在高并发访问下，大量缓存数据同时失效，导致大量请求涌入MySQL，使MySQL压力据曾，甚至宕机。"><a href="#指在高并发访问下，大量缓存数据同时失效，导致大量请求涌入MySQL，使MySQL压力据曾，甚至宕机。" class="headerlink" title="指在高并发访问下，大量缓存数据同时失效，导致大量请求涌入MySQL，使MySQL压力据曾，甚至宕机。"></a>指在高并发访问下，大量缓存数据同时失效，导致大量请求涌入MySQL，使MySQL压力据曾，甚至宕机。</h3><pre><code>解决方案：    1.对不同的key设置间隔缓过期时间， key1---5min， key2---10min， key3---15min。    2.互斥锁访问MySQL。    3.多级缓存。 如 本地缓存 + 分布式缓存。    4.缓存集群部署。如 主-从缓存集群。</code></pre><h2 id="3-缓存穿透"><a href="#3-缓存穿透" class="headerlink" title="3.缓存穿透"></a>3.缓存穿透</h2><h3 id="指大量恶意请求访问Redis和MySQL中都没有的数据，影像数据库性能。"><a href="#指大量恶意请求访问Redis和MySQL中都没有的数据，影像数据库性能。" class="headerlink" title="指大量恶意请求访问Redis和MySQL中都没有的数据，影像数据库性能。"></a>指大量恶意请求访问Redis和MySQL中都没有的数据，影像数据库性能。</h3><pre><code>解决方案：    1.缓存空数据。注意合理把控空数据对应的失效时间，以免影像后续该空数据对应key的更新。    2.参数校验。过滤一些恶意请求中的非法参数。    3.布隆过滤器（黑白名单）：可以快速判断某个元素是否属于该集合。</code></pre><h1 id="七、Redis持久化机制？"><a href="#七、Redis持久化机制？" class="headerlink" title="七、Redis持久化机制？"></a>七、Redis持久化机制？</h1><pre><code>RDB：内存快照AOF：增量日志</code></pre><h3 id="1-RDB内存快照持久化机制"><a href="#1-RDB内存快照持久化机制" class="headerlink" title="1.RDB内存快照持久化机制"></a>1.RDB内存快照持久化机制</h3><pre><code>在指定时间间隔内，将内存中的数据快照写入磁盘，以二进制序列化形式进行数据的全量备份。1.优点：    （1）恢复速度快。    （2）文件紧凑：rdb文件是一个二进制数据库文件，相比aof文件体积更小。2.缺点：可能会丢失数据    快照1--------Redis宕机-------快照2Redis默认是开启RDB持久化机制的，AOF持久化机制需要手动开启。</code></pre><h3 id="2-AOF增量日志持久化机制"><a href="#2-AOF增量日志持久化机制" class="headerlink" title="2.AOF增量日志持久化机制"></a>2.AOF增量日志持久化机制</h3><pre><code>写请求---&gt;AOF缓冲池---&gt;（同步策略 刷1次数据/s）---&gt;.incr.aof文件---&gt;（触发AOF重写）---&gt;.base.aof文件，并清空.incr.aof文件恢复数据时，先利用.base.aof文件恢复，然后恢复.incr.aof文件（清空后可能又有新的数据）1.优点：    数据更加可靠。aof文件记录了每一个写请求。2.缺点：    文件体积大，恢复速度慢。|---.incr.aof文件----|----.base.aof文件--------|</code></pre><h3 id="建议：RDB-AOF"><a href="#建议：RDB-AOF" class="headerlink" title="建议：RDB + AOF"></a>建议：RDB + AOF</h3><pre><code>触发AOF重写时，将.aof文件数据直接写入到一个.rdb二进制文件。恢复数据时，先回复.rdb文件，再恢复.aof文件。|------.rdb文件------|-------.aof文件----------|</code></pre><h1 id="八、如何保证Redis与数据库的数据一致性？"><a href="#八、如何保证Redis与数据库的数据一致性？" class="headerlink" title="八、如何保证Redis与数据库的数据一致性？"></a>八、如何保证Redis与数据库的数据一致性？</h1><h3 id="1-先操作缓存：延时双删"><a href="#1-先操作缓存：延时双删" class="headerlink" title="1.先操作缓存：延时双删"></a>1.先操作缓存：延时双删</h3><h3 id="2-先操作数据库：（推荐）"><a href="#2-先操作数据库：（推荐）" class="headerlink" title="2.先操作数据库：（推荐）"></a>2.先操作数据库：（推荐）</h3><h3 id="两种方法都是为了保证数据的最终一致性。"><a href="#两种方法都是为了保证数据的最终一致性。" class="headerlink" title="两种方法都是为了保证数据的最终一致性。"></a>两种方法都是为了保证数据的最终一致性。</h3><h1 id="九、删除缓存的时候失败了怎么办呢？"><a href="#九、删除缓存的时候失败了怎么办呢？" class="headerlink" title="九、删除缓存的时候失败了怎么办呢？"></a>九、删除缓存的时候失败了怎么办呢？</h1><pre><code>1.利用MQ中间件执行异步删除重试。2.利用Canal进行逻辑解耦，将删除缓存的操作放到Canal客户端。</code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;一、为什么引入Redis缓存？有什么好处？&quot;&gt;&lt;a href=&quot;#一、为什么引入Redis缓存？有什么好处？&quot; class=&quot;headerlink&quot; title=&quot;一、为什么引入Redis缓存？有什么好处？&quot;&gt;&lt;/a&gt;一、为什么引入Redis缓存？有什么好处？&lt;/</summary>
+      
     
     
     
     
+    <category term="Redis" scheme="http://example.com/tags/Redis/"/>
     
   </entry>
   
@@ -47,11 +66,21 @@
     <link href="http://example.com/2024/03/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     <id>http://example.com/2024/03/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</id>
     <published>2024-03-28T14:09:19.000Z</published>
-    <updated>2024-03-28T14:09:19.703Z</updated>
+    <updated>2024-04-19T09:19:01.110Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、单例模式"><a href="#一、单例模式" class="headerlink" title="一、单例模式"></a>一、单例模式</h1><pre><code>一个类只能有一个实例，并对外开放一个公共的访问接口。分为懒汉模式和饿汉模式，其中饿汉模式没有线程安全问题，懒汉模式有。</code></pre><h3 id="1-饿汉模式"><a href="#1-饿汉模式" class="headerlink" title="1.饿汉模式"></a>1.饿汉模式</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">static</span> A* <span class="title">get_instence</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="type">static</span> A* my_instance;</span><br><span class="line">        <span class="keyword">return</span> my_instance;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">my_print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;i am singalton instance...&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">A</span>() = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    A a = A::<span class="built_in">get_instance</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="2-懒汉模式实现线程安全单例模式思路：3种"><a href="#2-懒汉模式实现线程安全单例模式思路：3种" class="headerlink" title="2.懒汉模式实现线程安全单例模式思路：3种"></a>2.懒汉模式实现线程安全单例模式思路：3种</h3><pre><code>1.静态局部变量</code></pre><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">static</span> A* <span class="title">get_instence</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="type">static</span> A* my_instance;</span><br><span class="line">        <span class="keyword">return</span> my_instance;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">my_print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;i am singalton instance...&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">A</span>() = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    A a = A::<span class="built_in">get_instance</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><pre><code>2.双重检查锁 + 原子变量</code></pre><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;一、单例模式&quot;&gt;&lt;a href=&quot;#一、单例模式&quot; class=&quot;headerlink&quot; title=&quot;一、单例模式&quot;&gt;&lt;/a&gt;一、单例模式&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;一个类只能有一个实例，并对外开放一个公共的访问接口。
+分为懒汉模式和饿汉模式，其中饿汉模式没</summary>
+      
     
     
     
     
+    <category term="设计模式" scheme="http://example.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
@@ -95,29 +124,6 @@
     
     
     <category term="网络编程" scheme="http://example.com/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>WebServer</title>
-    <link href="http://example.com/2024/03/04/WebServer/"/>
-    <id>http://example.com/2024/03/04/WebServer/</id>
-    <published>2024-03-04T09:02:37.000Z</published>
-    <updated>2024-03-21T03:58:03.249Z</updated>
-    
-    <content type="html"><![CDATA[<span id="more"></span>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
-</summary>
-      
-    
-    
-    
-    
-    <category term="websever" scheme="http://example.com/tags/websever/"/>
     
   </entry>
   
