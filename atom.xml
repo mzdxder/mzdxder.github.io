@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-04-19T08:05:51.862Z</updated>
+  <updated>2024-04-21T03:50:49.868Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,21 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C++</title>
+    <link href="http://example.com/2024/04/21/C/"/>
+    <id>http://example.com/2024/04/21/C/</id>
+    <published>2024-04-21T03:50:37.000Z</published>
+    <updated>2024-04-21T03:50:49.868Z</updated>
+    
+    
+    
+    
+    
+    <category term="C++" scheme="http://example.com/tags/C/"/>
+    
+  </entry>
   
   <entry>
     <title>MySQL</title>
@@ -89,16 +104,16 @@
     <link href="http://example.com/2024/03/26/MySQL%E9%94%81%E6%9C%BA%E5%88%B6/"/>
     <id>http://example.com/2024/03/26/MySQL%E9%94%81%E6%9C%BA%E5%88%B6/</id>
     <published>2024-03-26T13:53:23.000Z</published>
-    <updated>2024-03-26T14:04:44.343Z</updated>
+    <updated>2024-04-21T03:48:42.635Z</updated>
     
-    <content type="html"><![CDATA[<span id="more"></span>]]></content>
+    <content type="html"><![CDATA[<span id="more"></span><h1 id="一、从粒度上区分"><a href="#一、从粒度上区分" class="headerlink" title="一、从粒度上区分"></a>一、从粒度上区分</h1><h2 id="（一）全局锁—–-针对整个数据库"><a href="#（一）全局锁—–-针对整个数据库" class="headerlink" title="（一）全局锁—–&gt;针对整个数据库"></a>（一）全局锁—–&gt;针对整个数据库</h2><h3 id="1-读锁（共享锁）"><a href="#1-读锁（共享锁）" class="headerlink" title="1.读锁（共享锁）"></a>1.读锁（共享锁）</h3><pre><code>作用：阻止更新数据，但允许读取数据。用途：可以在一段时间内保持数据一致性。</code></pre><h3 id="2-写锁（排他锁）"><a href="#2-写锁（排他锁）" class="headerlink" title="2.写锁（排他锁）"></a>2.写锁（排他锁）</h3><pre><code>作用：阻止更新数据、读取数据。用途：需要大量更新数据时。</code></pre><h2 id="（二）表级锁—–-针对整张表"><a href="#（二）表级锁—–-针对整张表" class="headerlink" title="（二）表级锁—–&gt;针对整张表"></a>（二）表级锁—–&gt;针对整张表</h2><h3 id="1-表读锁（表共享锁）"><a href="#1-表读锁（表共享锁）" class="headerlink" title="1.表读锁（表共享锁）"></a>1.表读锁（表共享锁）</h3><pre><code>作用：不能写，但可以读，读锁之间不会相互阻塞。用途：适合读频繁，写不频繁的场景。</code></pre><h3 id="2-表写锁（表独占锁）"><a href="#2-表写锁（表独占锁）" class="headerlink" title="2.表写锁（表独占锁）"></a>2.表写锁（表独占锁）</h3><pre><code>作用：表写锁会阻塞其他所有锁。用途：一般用于全表更新时。</code></pre><h3 id="3-表级锁的风险"><a href="#3-表级锁的风险" class="headerlink" title="3.表级锁的风险"></a>3.表级锁的风险</h3><pre><code>1.性能下降：高并发场景下，对于读写密度混合的负载，表级锁可能会成为性能瓶颈。2.并发性能差：读锁不能写，写锁既不能读也不能写。3.锁等待、锁超时：高并发场景下，很多线程等待锁，可能导致锁超时。4.写操作影响性能较大。5.死锁：表级锁本身不会出现死锁，但在多表操作种，若没有按一定顺序获得锁，则可能导致死锁。</code></pre><h3 id="4-不同存储引擎的锁"><a href="#4-不同存储引擎的锁" class="headerlink" title="4.不同存储引擎的锁"></a>4.不同存储引擎的锁</h3><pre><code>1.MyISAM存储引擎：读操作----自动加读锁，写操作----自动加写锁。2.InnoDB存储引擎：主要使用行锁实现MVCC机制，非必要情况不适用表级锁。    更好的并发性能，更少的锁冲突。</code></pre><h2 id="（三）行级锁-（主要由InnoDB提供）—–-针对某行数据"><a href="#（三）行级锁-（主要由InnoDB提供）—–-针对某行数据" class="headerlink" title="（三）行级锁*（主要由InnoDB提供）—–&gt;针对某行数据"></a>（三）行级锁*（主要由InnoDB提供）—–&gt;针对某行数据</h2><h3 id="1-行读锁（S锁）"><a href="#1-行读锁（S锁）" class="headerlink" title="1.行读锁（S锁）"></a>1.行读锁（S锁）</h3><pre><code>事务S锁某行数据后，该行数据只能读，不能写。</code></pre><h3 id="2-行写锁（X锁）"><a href="#2-行写锁（X锁）" class="headerlink" title="2.行写锁（X锁）"></a>2.行写锁（X锁）</h3><pre><code>事务X锁某行数据后，该行数据既不能读，也不能写。</code></pre><h3 id="3-行级锁风险"><a href="#3-行级锁风险" class="headerlink" title="3.行级锁风险"></a>3.行级锁风险</h3><pre><code>1.死锁：行级锁粒度最低，导致死锁发生的可能更高。死锁发生时，MySQL会释放其中一个事务，但影响性能。2.锁升级：一个事务试图锁定的行过多，InnoDB可能会将该行级锁升级为表级锁。3.锁等待：高并发时，如果对热点数据上了锁，可能会导致锁等待和锁超时。4.资源消耗大：行级锁需要更多的内存来存储锁信息，以及更多的CPU时间处理锁请求/释放锁。5.难调试，难排查：行锁粒度最小。6.事务隔离级别：不同的隔离级别会影响行锁性能。</code></pre><h1 id="二、从模式上区分"><a href="#二、从模式上区分" class="headerlink" title="二、从模式上区分"></a>二、从模式上区分</h1><h2 id="（一）乐观锁"><a href="#（一）乐观锁" class="headerlink" title="（一）乐观锁"></a>（一）乐观锁</h2><pre><code>1.使用方法：利用版本号字段，每当一条记录被修改时，增加版本号字段。2.思想：操作数据不立即锁定，提交时检查版本号是否与开始时一致，若一致，则提交（commit），否则，回滚（rollback）。</code></pre><h2 id="（二）悲观锁"><a href="#（二）悲观锁" class="headerlink" title="（二）悲观锁"></a>（二）悲观锁</h2><pre><code>1.使用方法：    S锁：lock in share mode；    X锁：for update；2.优缺点：    优点：能够有效防止数据冲突。    缺点：死锁、锁超时、锁竞争。3.使用场景：    适合数据需要保持强一致性的场景：如银行帐目等。</code></pre><h2 id="（三）意向锁（实际上就是表级锁）"><a href="#（三）意向锁（实际上就是表级锁）" class="headerlink" title="（三）意向锁（实际上就是表级锁）"></a>（三）意向锁（实际上就是表级锁）</h2><pre><code>意向锁支持表级锁、行级锁共存。            意向共享锁（IS锁）          意向排他锁（IX锁）</code></pre><p>共享锁（S锁）         兼容                       互斥</p><p>排他锁（X锁）         互斥                       互斥</p><h1 id="三、从区间上区分"><a href="#三、从区间上区分" class="headerlink" title="三、从区间上区分"></a>三、从区间上区分</h1><h2 id="（一）临键锁—–-解决幻读问题"><a href="#（一）临键锁—–-解决幻读问题" class="headerlink" title="（一）临键锁—–&gt;解决幻读问题"></a>（一）临键锁—–&gt;解决幻读问题</h2><pre><code>1.非索引字段上都会有一把临键锁。2.事务持有该行临键锁，会锁住一段左开右闭的数据。3.InnoDB存储引擎中，唯一索引字段与主键索引字段不存在临键锁。</code></pre><h2 id="（二）间隙锁—–-解决幻读问题"><a href="#（二）间隙锁—–-解决幻读问题" class="headerlink" title="（二）间隙锁—–&gt;解决幻读问题"></a>（二）间隙锁—–&gt;解决幻读问题</h2><pre><code>幻读问题：表级问题。    事务A读取：10， 20， 30.                                                                事务B插入：10, 15, 20, 30.        事务A读取：10, 15, 20, 30. ------&gt;幻读 15.</code></pre>]]></content>
     
     
       
       
-    <summary type="html">
+    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
 
-&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;</summary>
+&lt;h1 id=&quot;一、从粒度上区分&quot;&gt;&lt;a href=&quot;#一、从粒度上区分&quot; class=&quot;headerlink&quot; title=&quot;一、从粒度上区分&quot;&gt;&lt;/a&gt;一、从粒度上区分&lt;/h1&gt;&lt;h2 id=&quot;（一）全局锁—–-针对整个数据库</summary>
       
     
     
